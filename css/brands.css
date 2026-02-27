@@ -380,6 +380,13 @@
 	--button-border:1px solid #000000;
 }
 
+/* Linkedin */
+.button-linkedin {
+    --button-text: #ffffff;
+    --button-background: #004080;
+    --button-border: 1px solid #FFFFFF;
+}
+
 /* Meetup */
 .button-meetup {
 	--button-text:#000000;
