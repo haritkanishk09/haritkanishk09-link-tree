@@ -394,6 +394,13 @@
 	--button-border:1px solid #000000;
 }
 
+/* Serializd */
+.button-serializd {
+    --button-text: #000000;
+    --button-background: #99ffff;
+    --button-border: 1px solid #000000;
+}
+
 /* Meetup Alt */
 .button-meetup-alt {
 	--button-text:#ffffff;
