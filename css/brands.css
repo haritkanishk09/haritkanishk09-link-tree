@@ -35,7 +35,7 @@
 .button.button-default {
 	--button-text:#ffffff;
 	--button-background:#2457F5;
-	--button-border:1px solid #ffffff;
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* Amazon */
@@ -76,14 +76,14 @@
 .button-tv-time {
     --button-text: #000000;
     --button-background: #f4d63c;
-    --button-border: 1px solid #000000;
+    --button-border: 1px solid #FFFFFF;
 }
 
 /* IMDb */
 .button-imdb {
     --button-text: #ffffff;
     --button-background: #2A2A2A;
-    --button-border: 1px solid #000000;
+    --button-border: 1px solid #FFFFFF;
 }
 
 /* My Anime List */
@@ -195,6 +195,7 @@
 .button-discord {
 	--button-text:#ffffff;
 	--button-background:#5865F2;
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* Dribbble */
@@ -300,6 +301,7 @@
 .button-instagram {
 	--button-text:#ffffff;
 	background-image:linear-gradient(-135deg,#1400c8,#b900b4,#f50000);
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* Kick */
@@ -398,7 +400,7 @@
 .button-serializd {
     --button-text: #000000;
     --button-background: #99ffff;
-    --button-border: 1px solid #000000;
+    --button-border: 1px solid #FFFFFF;
 }
 
 /* Meetup Alt */
@@ -459,7 +461,7 @@
 .button-pinterest {
 	--button-text:#000000;
 	--button-background:#ffffff;
-	--button-border:1px solid #212121;
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* Product Hunt */
@@ -473,6 +475,7 @@
 .button-reddit {
 	--button-text:#FFFFFF;
 	--button-background:#FF4500;
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* Shop */
@@ -568,6 +571,7 @@
 .button-telegram {
 	--button-text:#ffffff;
 	--button-background:#3faee8;
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* Threads */
@@ -658,7 +662,7 @@
 .button-yt {
 	--button-text:#ffffff;
 	--button-background:#282828;
-	--button-border:1px solid #FFFFFF;
+	--button-border: 1px solid #FFFFFF;
 }
 
 /* YouTube Alt */
