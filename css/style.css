@@ -12,26 +12,24 @@
   --font-main: 'Space Mono', monospace; 
 }
 
-/* style.css mein body block ko replace karo */
-
+/* Alternative safer option for body (if content still cuts) */
 body {
   background-color: var(--bg-color);
-  background-image: 
-    radial-gradient(at 10% 10%, rgba(79, 172, 254, 0.15) 0px, transparent 50%),
-    radial-gradient(at 90% 90%, rgba(0, 242, 254, 0.15) 0px, transparent 50%);
+  background-image: ... ; /* same gradients */
   color: var(--text-primary);
   font-family: var(--font-main);
   margin: 0;
+  
+  /* Simplified display approach */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column; /* Stack top to bottom */
+  align-items: center;    /* Horizontally center */
   
-  /* --- HEIGHT & PADDING FIX --- */
-  min-height: calc(100vh - 4rem); /* 100% viewport height minus top+bottom padding */
-  padding: 2rem 0; /* 2rem top, 0 left/right, 2rem bottom padding */
-  /* ---------------------------- */
-  
-  overflow-x: hidden;
+  /* Forced vertical spacing */
+  padding-top: 4rem;      /* Extra big space at top */
+  padding-bottom: 4rem;   /* Extra big space at bottom */
+  min-height: 100vh;      /* Ensures full background coverage */
+  box-sizing: border-box;  /* Important for padding calculation */
 }
 
 /* Glassmorphism Container with Dynamic Glow */
