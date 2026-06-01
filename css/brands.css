@@ -90,6 +90,12 @@
     --button-border: 1px solid #FFFFFF;
 }
 
+/* Trakt */
+.button-trakt {
+    --button-text: #ffffff;
+    --button-background: #9f42c6;
+}
+
 /* IMDb */
 .button-imdb {
     --button-text: #ffffff;
