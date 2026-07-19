@@ -96,30 +96,30 @@ h3 a:hover {
     text-decoration: underline;
 }
 
-.reviews-button {
-  /* Vibrant gradient */
-  background: linear-gradient(45deg, #ff416c, #ff4b2b);
-  color: white;
-  padding: 15px 30px;
-  border-radius: 50px; /* Rounded corners */
+/* Reviews Button Special Style */
+.button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 18px;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Courier New', monospace; /* Tumhari font style ke liye */
   font-weight: bold;
-  text-transform: uppercase;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.4);
+  font-size: 1.2rem;
+  color: #000; /* Text color */
+  background: #ffffff; /* Contrast ke liye white */
+  border-radius: 8px;
+  border: 2px solid #fff;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-.reviews-button:hover {
-  transform: scale(1.1); /* Halka sa bada hoga hover par */
-  box-shadow: 0 8px 25px rgba(255, 75, 75, 0.6);
-}
-
-/* Pulsing effect */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-.reviews-button {
-  animation: pulse 2s infinite;
+.button:hover {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+  transform: translateY(-5px);
 }
