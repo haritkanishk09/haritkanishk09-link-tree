@@ -96,30 +96,3 @@ h3 a:hover {
     text-decoration: underline;
 }
 
-/* Reviews Button Special Style */
-.button {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 18px;
-  text-align: center;
-  text-decoration: none;
-  font-family: 'Courier New', monospace; /* Tumhari font style ke liye */
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #000; /* Text color */
-  background: #ffffff; /* Contrast ke liye white */
-  border-radius: 8px;
-  border: 2px solid #fff;
-  transition: all 0.4s ease;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
-.button:hover {
-  background: transparent;
-  color: #fff;
-  border-color: #fff;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-  transform: translateY(-5px);
-}
