@@ -95,3 +95,24 @@ h3 a:hover {
     color: #2457F5 !important; /* Hover karne par blue color ho jayega */
     text-decoration: underline;
 }
+
+/* Desktop view ke liye grid layout */
+@media (min-width: 769px) {
+    .button-stack {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns mein divide karega */
+        gap: 15px; /* Buttons ke beech ka gap */
+        max-width: 1000px; /* Layout ki max width */
+        margin: 0 auto; /* Center karne ke liye */
+        padding: 20px;
+    }
+}
+
+/* Mobile view ke liye waisa hi rahega jaisa pehle tha */
+@media (max-width: 768px) {
+    .button-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
