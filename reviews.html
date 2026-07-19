@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Letterboxd Reviews</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    body { background: #000; color: #fff; font-family: 'Space Mono', monospace; }
+    
+    .galaxy-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle, #1a1a2e 0%, #000 100%); }
+    
+    .stars { 
+        position: fixed; 
+        inset: 0; 
+        z-index: -1; 
+        background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
+        opacity: 0.3;
+        /* Animation add ki gayi hai */
+        animation: moveStars 400s linear infinite; 
+    }
+
+    /* Animation ka keyframe */
+    @keyframes moveStars {
+        from { background-position: 0 0; }
+        to { background-position: 10000px 5000px; }
+    }
+
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .glass-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; gap: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); align-items: flex-start; min-height: 140px; }
+    .poster-img { width: 80px; height: 120px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #222; }
+    .rating { color: #facc15; font-size: 16px; margin-bottom: 5px; }
+</style>
+    </style>
+</head>
+<body>
+    <div class="galaxy-bg"></div>
+    <div class="stars"></div>
+
+    <div class="container">
+        <h1 class="text-3xl font-bold mb-8 text-center text-white">Letterboxd Reviews</h1>
+        <div id="review-container"></div>
+        <button id="show-more" class="hidden w-full p-3 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition">Show More</button>
+    </div>
+
+    <script>
+        const API_KEY = 'd1d95acce3a7ca44eaae481b6bd75cdf';
+        const RSS_URL = 'https://corsproxy.io/?https://letterboxd.com/haritkanishk09/rss/';
+        let allReviews = [];
+        let displayedCount = 0;
+
+        async function init() {
+            try {
+                const res = await fetch(RSS_URL);
+                const text = await res.text();
+                const xml = new DOMParser().parseFromString(text, 'text/xml');
+                allReviews = Array.from(xml.querySelectorAll('item'));
+                renderMore();
+            } catch (e) { 
+                document.getElementById('review-container').innerHTML = `<p class="text-red-500 text-center">Error loading feed: ${e.message}</p>`;
+            }
+        }
+
+        async function renderMore() {
+            const container = document.getElementById('review-container');
+            const end = Math.min(displayedCount + 10, allReviews.length);
+            
+            for (let i = displayedCount; i < end; i++) {
+                const item = allReviews[i];
+                const rawTitle = item.querySelector('title').textContent;
+                const parts = rawTitle.split(', ');
+                const title = parts[0];
+                const year = parts[1] || '';
+                const link = item.querySelector('link').textContent;
+                
+                const descFull = item.querySelector('description').textContent;
+                const descText = descFull.replace(/<[^>]*>/g, '');
+                
+                // Fallback Image Extraction: Letterboxd RSS embeds images in the description
+                const imgMatch = descFull.match(/src="([^"]+)"/);
+                const lbImg = imgMatch ? imgMatch[1] : 'https://placehold.co/80x120?text=No+Poster';
+
+                const rateMatch = descFull.match(/Rated ([\d.]+)/);
+                const stars = rateMatch ? '★'.repeat(Math.floor(rateMatch[1])) : '';
+
+                const div = document.createElement('div');
+                div.className = 'glass-card';
+                div.innerHTML = `<img src="${lbImg}" class="poster-img" id="img-${i}" onerror="this.src='https://placehold.co/80x120?text=Error'">
+                    <div><h3 class="text-lg font-bold"><a href="${link}" target="_blank">${rawTitle}</a></h3>
+                    <p class="rating">${stars}</p><p class="text-sm opacity-80 mt-1">${descText}</p></div>`;
+                container.appendChild(div);
+                
+                // Try upgrading to TMDb poster, keep fallback if it fails
+                upgradePoster(title, year, `img-${i}`, lbImg);
+            }
+            displayedCount = end;
+            document.getElementById('show-more').classList.toggle('hidden', displayedCount >= allReviews.length);
+        }
+
+        async function upgradePoster(title, year, imgId, fallbackUrl) {
+            let url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&primary_release_year=${year}&language=en-US`;
+            
+            try {
+                let res = await fetch(url);
+                let data = await res.json();
+                
+                if (!data.results || data.results.length === 0) {
+                    url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&language=en-US`;
+                    res = await fetch(url);
+                    data = await res.json();
+                }
+
+                if (data.results?.[0]?.poster_path) {
+                    document.getElementById(imgId).src = `https://image.tmdb.org/t/p/w200${data.results[0].poster_path}`;
+                } else {
+                    document.getElementById(imgId).src = fallbackUrl;
+                }
+            } catch { 
+                document.getElementById(imgId).src = fallbackUrl;
+            }
+        }
+
+        document.getElementById('show-more').onclick = renderMore;
+        init();
+    </script>
+</body>
+</html>

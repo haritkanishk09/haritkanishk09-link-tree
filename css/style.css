@@ -1,126 +1,97 @@
-/* style.css */
-
-:root {
-  --bg-color: #030303; /* Deep black */
-  --card-bg: rgba(10, 10, 15, 0.3); /* Ultra-thin glass */
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --accent-cyan: #00f2fe; /* Cyber cyan glow */
-  --accent-blue: #4facfe; /* Deep blue glow */
-  --text-primary: #ffffff;
-  
-  /* Futuristic Font Defined Here */
-  --font-main: 'Space Mono', monospace; 
+/* Body fix taaki background fixed rahe aur layout na hile */
+body { 
+    background: #000; 
+    color: #fff; 
+    font-family: 'Space Mono', sans-serif; 
+    margin: 0; 
+    padding: 20px; 
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Alternative safer option for body (if content still cuts) */
-body {
-  background-color: var(--bg-color);
-  background-image: ... ; /* same gradients */
-  color: var(--text-primary);
-  font-family: var(--font-main);
-  margin: 0;
-  
-  /* Simplified display approach */
-  display: flex;
-  flex-direction: column; /* Stack top to bottom */
-  align-items: center;    /* Horizontally center */
-  
-  /* Forced vertical spacing */
-  padding-top: 4rem;      /* Extra big space at top */
-  padding-bottom: 4rem;   /* Extra big space at bottom */
-  min-height: 100vh;      /* Ensures full background coverage */
-  box-sizing: border-box;  /* Important for padding calculation */
+/* Galaxy & Stars Background Layers */
+.galaxy-bg { 
+    position: fixed; 
+    inset: 0; 
+    z-index: -2; 
+    background: radial-gradient(circle, #1a1a2e 0%, #000 100%); 
+    animation: moveGalaxy 20s linear infinite alternate;
+}
+.stars { 
+    position: fixed; 
+    inset: 0; 
+    z-index: -1; 
+    background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
+    opacity: 0.3; 
+    animation: moveStars 60s linear infinite;
 }
 
-/* Glassmorphism Container with Dynamic Glow */
-.container {
-  background: var(--card-bg);
-  backdrop-filter: blur(25px);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  padding: 3rem 2rem;
-  max-width: 380px;
-  width: 90%;
-  box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.7),
-    0 0 100px -20px rgba(79, 172, 254, 0.3); /* Soft background glow */
-  animation: fadeIn 1s ease-out;
-  position: relative;
-  text-align: center;
+/* Animations */
+@keyframes moveGalaxy {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
 }
 
-/* Pseudo-element for extra sharpness on edges */
-.container::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: 20px;
-  border: 1px solid transparent;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: destination-out;
-  mask-composite: exclude;
-  opacity: 0.3; /* Subtle sharp edge */
+@keyframes moveStars {
+    from { background-position: 0 0; }
+    to { background-position: 1000px 1000px; }
 }
 
-/* Typography Updates */
-h1 {
-  font-weight: 700;
-  letter-spacing: -1px;
-  margin-bottom: 0.2rem;
-  background: linear-gradient(to right, #fff, #888);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 2rem;
+/* Container layout fix */
+.container { 
+    max-width: 500px; 
+    margin: 0 auto; 
+    text-align: center; 
+    position: relative;
+    z-index: 1;
 }
 
-.container p {
-  color: #888;
-  font-size: 0.8rem;
-  margin-bottom: 2.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em; /* Mechanic feel */
-  font-weight: 400;
-}
-
-/* Keep your existing .avatar, .button-stack, and .icon CSS here... */
-
-/* style.css mein ise change karo */
-.avatar {
-    width: 6rem;             /* 128px se ghatakar 96px kar diya */
-    height: 6rem;            /* Isse size chhota ho jayega */
-    object-fit: cover;
-    background-position: center;
-    margin-bottom: var(--spacing-l);
-    border-radius: 50%;      /* Round shape ke liye */
+/* Baki elements same rahenge */
+.avatar { 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    border: 2px solid white; 
+    margin-bottom: 20px;
+    /* Center karne ke liye ye lines add/update karo */
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-
-.avatar:hover {
-  transform: scale(1.05);
+.button-stack { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.glass-card { 
+    background: rgba(255,255,255,0.05); 
+    padding: 15px; 
+    border-radius: 12px; 
+    display: flex; 
+    gap: 15px; 
+    text-align: left; 
+    border: 1px solid rgba(255,255,255,0.1);
+    
+    /* Ye lines card ko content ke hisaab se grow hone dengi */
+    height: auto; 
+    min-height: 120px; 
+    align-items: flex-start;
+    margin-bottom: 15px; /* Cards ke beech space ke liye */
 }
 
-/* Button Entrance Animation */
-.button-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.glass-card img {
+    flex-shrink: 0; /* Poster image ka size bigadne nahi dega */
+}
+.poster-img { width: 60px; height: 90px; object-fit: cover; border-radius: 6px; }
+.rating { color: #facc15; font-size: 12px; }
+.button { padding: 12px; background: #2457F5; color: white; border-radius: 10px; text-decoration: none; display: block; font-weight: bold; }
+h3 { margin: 0; color: #fff; }
+p { font-size: 14px; opacity: 0.8; }
+
+h3 a {
+    color: #fff !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border-radius: 12px !important; /* Slightly more modern radius */
-}
-
-.button:hover {
-  transform: scale(1.02) !important;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+h3 a:hover {
+    color: #2457F5 !important; /* Hover karne par blue color ho jayega */
+    text-decoration: underline;
 }
