@@ -96,3 +96,227 @@ h3 a:hover {
     text-decoration: underline;
 }
 
+/* Media query: Sirf desktop par reels dikhengi */
+@media (max-width: 1024px) {
+    .reel { display: none !important; }
+}
+
+.reel {
+    position: fixed;
+    top: 0;
+    width: 350px; /* Reel container width badha di */
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    filter: blur(1.5px); /* Blur kam kiya taaki image zyada clear dikhe */
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.left-reel { left: 8%; }  /* Padding adjust ki */
+.right-reel { right: 5%; } /* Padding adjust ki */
+
+/* Posters ke beech ka gap badhane ke liye */
+.scrolling-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Gap 20px se badhakar 50px kar diya */
+}
+
+.left-reel .scrolling-content {
+    animation: scrollUp 30s linear infinite;
+}
+
+.right-reel .scrolling-content {
+    animation: scrollDown 30s linear infinite;
+}
+
+/* Upward movement animation */
+@keyframes scrollUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5000px); }
+}
+
+/* Downward movement animation */
+@keyframes scrollDown {
+    from { transform: translateY(-5000px); }
+    to { transform: translateY(0); }
+
+}
+
+.poster {
+    width: 300px; /* Poster width badi ki */
+    height: 450px; /* Poster height badi ki */
+    background: #1a1a1a;
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 16px;
+    border-radius: 20px; /* Border radius add kiya */
+    overflow: hidden;
+}
+
+.poster img {
+    border-radius: 20px;
+}
+
+/* Neon Glow Effect for View Reviews */
+.button-neon {
+    background: transparent !important;
+    border: 2px solid #2457F5 !important;
+    color: #fff !important;
+    text-shadow: 0 0 10px #2457F5, 0 0 20px #2457F5;
+    box-shadow: 0 0 15px #2457F5, inset 0 0 10px #2457F5;
+    animation: neonPulse 1.5s infinite alternate;
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Neon Pulse Animation */
+@keyframes neonPulse {
+    from { box-shadow: 0 0 10px #2457F5, inset 0 0 5px #2457F5; }
+    to { box-shadow: 0 0 25px #2457F5, inset 0 0 15px #2457F5; }
+}
+
+/* Hover effect */
+.button-neon:hover {
+    background: #2457F5 !important;
+    color: #000 !important;
+    cursor: pointer;
+}
+
+
+
+/* yha se nya hai 
+
+/* Glassmorphism & Depth */
+.glass-card { 
+    background: rgba(255, 255, 255, 0.03); 
+    backdrop-filter: blur(15px); /* Premium depth effect */
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    padding: 15px; 
+    border-radius: 16px;
+    transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    border: 1px solid rgba(36, 87, 245, 0.5); /* Hover par subtle blue glow */
+}
+
+/* Avatar Float Animation */
+.avatar { 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    border: 2px solid rgba(255, 255, 255, 0.2); 
+    display: block; 
+    margin: 0 auto 20px;
+    animation: float 4s ease-in-out infinite; 
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Glowing Name Effect */
+h1 {
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    margin-bottom: 5px;
+}
+
+/* Enhanced Buttons */
+.button {
+    padding: 14px;
+    background: rgba(36, 87, 245, 0.2);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.button:hover {
+    transform: scale(1.02);
+    background: rgba(36, 87, 245, 0.6);
+}
+
+/* Media Query for Desktop Reels (Only if screens > 1024px) */
+@media (max-width: 1024px) {
+    .reel { display: none !important; }
+}
+
+/* Modern Liquid Glass Popup */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9); /* Thoda aur dark */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(15px); /* Smooth blur */
+}
+
+.popup-content {
+    width: 80%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.05); /* Very light glass */
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 50px;
+    border-radius: 40px; /* Rounder corners */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Elements ke beech perfect gap */
+}
+
+.popup-content h2 {
+    font-size: 28px;
+    margin: 0;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.popup-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 450px;
+}
+
+.popup-content .button {
+    margin-top: 10px;
+    width: 200px;
+    padding: 15px;
+    border-radius: 50px; /* Oval button */
+    background: #2457F5;
+}
+
+/* Button hover par cursor change */
+.button:hover ~ .cursor-dot-outline {
+    transform: scale(2);
+    border: 1px solid #2457F5;
+}
+
+/* Image Tilt Effect */
+.poster {
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.poster:hover {
+    transform: scale(1.05) rotateY(10deg);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #333; }

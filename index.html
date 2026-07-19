@@ -26,7 +26,32 @@
     <link rel="stylesheet" href="css/brands.css">
 </head>
 
+<script>
+    function closePopup() {
+        document.getElementById('welcome-popup').style.display = 'none';
+    }
+</script>
+
 <body>
+    <div id="welcome-popup" class="popup-overlay">
+    <div class="glass-card popup-content">
+        <h2>WELCOME TO THE FRAME</h2>
+        <p>I am Kanishk Harit, a cinephile living life with films.</p>
+        <button onclick="closePopup()" class="button">ENTER IN MY HUB</button>
+    </div>
+</div>
+    <!-- Reels Container -->
+<div class="reel left-reel">
+    <div class="scrolling-content" id="left-side"></div>
+</div>
+<div class="reel right-reel">
+    <div class="scrolling-content" id="right-side"></div>
+</div>
+
+<main class="container">
+   <!-- Tumhara purana content yahan rahega -->
+</main>
+
     <main class="container">
         <img class="avatar avatar--rounded" src="images/ProfileImg.jpg" alt="Kanishk Harit">
         <h1>Kanishk Harit</h1>
@@ -35,7 +60,8 @@
 
         <div class="button-stack" role="navigation">
             
-<a href="reviews.html" class="button">View Reviews</a>            
+<!-- Isse update karo -->
+<a href="reviews.html" class="button button-neon">My Recent Reviews</a>            
 
 <a class="button button-default" href="mailto:haritkanishk09@gmail.com">
                 <img class="icon" src="images/icons/generic-email.svg" alt=""> Email
@@ -82,6 +108,65 @@
             
         </div>
     </main>
+    <!-- Cursor Follower -->
+<div class="cursor-dot"></div>
+<div class="cursor-dot-outline"></div>
+
+<style>
+    /* Cursor Styles */
+    .cursor-dot, .cursor-dot-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        border-radius: 50%;
+        z-index: 9999;
+        transition: transform 0.1s ease;
+    }
+    .cursor-dot { width: 8px; height: 8px; background: #fff; }
+    .cursor-dot-outline { width: 30px; height: 30px; border: 1px solid rgba(255, 255, 255, 0.3); }
+</style>
+
+<script>
+    const cursorDot = document.querySelector(".cursor-dot");
+    const cursorOutline = document.querySelector(".cursor-dot-outline");
+
+    window.addEventListener("mousemove", function (e) {
+        const posX = e.clientX;
+        const posY = e.clientY;
+
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+
+        // Smooth trailing effect for outline
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 500, fill: "forwards" });
+    });
+</script>
+<script>
+        // Magnetic button script
+        document.querySelectorAll('.button').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // Agar tumne wo 'Welcome Popup' wali script bhi rakhi hai, toh wo yahan niche add hogi:
+        function closePopup() {
+            document.getElementById('welcome-popup').style.display = 'none';
+        }
+        window.addEventListener('load', () => {
+    document.querySelector('.container').classList.add('loaded');
+});
+    </script>
 </body>
 <div class="galaxy-bg"></div>
 <div class="stars"></div>
@@ -90,4 +175,35 @@
 <div class="container">
     ...
 </div>
+<script>
+    const leftSide = document.getElementById('left-side');
+    const rightSide = document.getElementById('right-side');
+
+    // Shuffle function
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Generate arrays
+    let leftImages = Array.from({length: 50}, (_, i) => i + 1);
+    let rightImages = Array.from({length: 50}, (_, i) => i + 51);
+
+    // Shuffle them
+    leftImages = shuffleArray(leftImages);
+    rightImages = shuffleArray(rightImages);
+
+    // Render Left
+    leftImages.forEach(num => {
+        leftSide.innerHTML += `<div class="poster"><img src="images/movies/${num}.jpg" alt="Film ${num}" style="width:100%; height:100%; object-fit:cover;"></div>`;
+    });
+
+    // Render Right
+    rightImages.forEach(num => {
+        rightSide.innerHTML += `<div class="poster"><img src="images/movies/${num}.jpg" alt="Film ${num}" style="width:100%; height:100%; object-fit:cover;"></div>`;
+    });
+</script>
 </html>

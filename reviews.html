@@ -15,8 +15,77 @@
         .poster-img { width: 80px; height: 120px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #222; }
         .rating { color: #facc15; font-size: 16px; margin-bottom: 5px; }
     </style>
+    <style>
+    /* Basic Setup */
+    body { background: #000; color: #fff; font-family: 'Space Mono', sans-serif; margin: 0; min-height: 100vh; overflow-x: hidden; }
+    .galaxy-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle, #1a1a2e 0%, #000 100%); }
+    .stars { position: fixed; inset: 0; z-index: -1; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; }
+
+    /* Container - Fade in effect */
+    .container { max-width: 600px; margin: 100px auto; padding: 20px; z-index: 1; position: relative; opacity: 0; transition: opacity 1.5s ease-in; }
+    .container.loaded { opacity: 1; }
+
+    /* Glass Cards for Reviews */
+    .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; transition: transform 0.3s ease; display: flex; gap: 15px; }
+    .glass-card:hover { transform: translateY(-5px); border: 1px solid rgba(36, 87, 245, 0.5); }
+    .poster-img { width: 80px; height: 120px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+    
+    /* Cursor Styles */
+    .cursor-dot, .cursor-dot-outline { position: fixed; top: 0; left: 0; pointer-events: none; border-radius: 50%; z-index: 9999; transition: transform 0.1s ease; }
+    .cursor-dot { width: 8px; height: 8px; background: #fff; }
+    .cursor-dot-outline { width: 30px; height: 30px; border: 1px solid rgba(255, 255, 255, 0.3); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #333; }
+
+    .container { 
+    max-width: 600px; 
+    margin: 100px auto; 
+    padding: 20px; 
+    z-index: 1; 
+    position: relative; 
+    opacity: 0; 
+    transition: opacity 1.5s ease-in; 
+    
+    /* Yeh hai black fade ka logic */
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+</style>
+
 </head>
 <body>
+    <body>
+    <div class="galaxy-bg"></div>
+    <div class="stars"></div>
+
+    <!-- Cursor Follower (Required for consistency) -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <main class="container">
+        <!-- Review Content -->
+        <h1 class="text-3xl font-bold mb-8 text-center text-white">Letterboxd Reviews</h1>
+        <div id="review-container">
+            <p class="text-center">Loading reviews...</p>
+        </div>
+        <button id="show-more" class="hidden w-full p-3 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition">Show More</button>
+    </main>
+
+    <script>
+        // Smooth Fade-in Script
+        window.addEventListener('load', () => { document.querySelector('.container').classList.add('loaded'); });
+        
+        // Cursor Follower Script
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-dot-outline");
+        window.addEventListener("mousemove", function (e) {
+            cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+        });
+    </script>
+</body>
     <div class="galaxy-bg"></div>
     <div class="stars"></div>
 
