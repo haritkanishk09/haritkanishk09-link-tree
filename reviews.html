@@ -22,29 +22,33 @@
 
     <div class="container">
         <h1 class="text-3xl font-bold mb-8 text-center text-white">Letterboxd Reviews</h1>
-        <div id="review-container"></div>
+        <div id="review-container">
+            <p class="text-center">Loading reviews... (If this stays, check Console)</p>
+        </div>
         <button id="show-more" class="hidden w-full p-3 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition">Show More</button>
     </div>
 
     <script>
-        const API_KEY = 'd1d95acce3a7ca44eaae481b6bd75cdf'; // Fix 1: Added Key
-        const RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://letterboxd.com/haritkanishk09/rss/');
+        const API_KEY = 'd1d95acce3a7ca44eaae481b6bd75cdf';
+        // Using a more reliable public proxy
+        const RSS_URL = 'https://corsproxy.io/?https://letterboxd.com/haritkanishk09/rss/';
         
-        // Fix 2: Defined Global Variables
         let allReviews = [];
         let displayedCount = 0;
 
         async function init() {
             try {
                 const response = await fetch(RSS_URL);
-                const data = await response.json();
-                const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+                const text = await response.text();
+                const xml = new DOMParser().parseFromString(text, 'text/xml');
                 allReviews = Array.from(xml.querySelectorAll('item'));
+                
+                document.getElementById('review-container').innerHTML = '';
                 renderMore();
                 document.getElementById('show-more').classList.remove('hidden');
             } catch (e) { 
-                console.error("Load Error:", e);
-                document.getElementById('review-container').innerHTML = "SSL/Network Error: Check Console.";
+                console.error("Critical Load Error:", e);
+                document.getElementById('review-container').innerHTML = "Failed to load. Try checking your internet or hosting CORS settings.";
             }
         }
 
@@ -55,9 +59,6 @@
             for (let i = displayedCount; i < end; i++) {
                 const item = allReviews[i];
                 const rawTitle = item.querySelector('title').textContent;
-                const parts = rawTitle.split(', ');
-                const title = parts[0];
-                const year = parts[1] || '';
                 const link = item.querySelector('link').textContent;
                 const descFull = item.querySelector('description').textContent;
                 const descText = descFull.replace(/<[^>]*>/g, '');
@@ -74,26 +75,24 @@
                     <p class="rating">${stars}</p><p class="text-sm opacity-80 mt-1">${descText}</p></div>`;
                 container.appendChild(div);
                 
-                upgradePoster(title, year, `img-${i}`, lbImg);
+                // Optimized fetch: Only call TMDb if lbImg looks like a placeholder
+                if (lbImg.includes('letterboxd')) {
+                    upgradePoster(rawTitle.split(', ')[0], rawTitle.split(', ')[1] || '', `img-${i}`, lbImg);
+                }
             }
             displayedCount = end;
             if (displayedCount >= allReviews.length) document.getElementById('show-more').classList.add('hidden');
         }
 
         async function upgradePoster(title, year, imgId, fallbackUrl) {
-            let url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&primary_release_year=${year}&language=en-US`;
+            const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&primary_release_year=${year}&language=en-US`;
             try {
-                let res = await fetch(url);
-                let data = await res.json();
-                if (!data.results || data.results.length === 0) {
-                    url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&language=en-US`;
-                    res = await fetch(url);
-                    data = await res.json();
-                }
+                const res = await fetch(url);
+                const data = await res.json();
                 if (data.results?.[0]?.poster_path) {
                     document.getElementById(imgId).src = `https://image.tmdb.org/t/p/w200${data.results[0].poster_path}`;
                 }
-            } catch (e) { console.error("Poster Error:", e); }
+            } catch (e) { console.error("TMDb fetch failed"); }
         }
 
         document.getElementById('show-more').onclick = renderMore;
