@@ -30,8 +30,7 @@
 
     <script>
         const API_KEY = 'd1d95acce3a7ca44eaae481b6bd75cdf';
-        // Using a more reliable public proxy
-        const RSS_URL = 'https://corsproxy.io/?https://letterboxd.com/haritkanishk09/rss/';
+        const RSS_URL = '/api/proxy?url=' + encodeURIComponent('https://letterboxd.com/haritkanishk09/rss/');
         
         let allReviews = [];
         let displayedCount = 0;
