@@ -96,41 +96,33 @@ h3 a:hover {
     text-decoration: underline;
 }
 
-/* Desktop view ke liye grid layout */
+/* Container ko screen par center aur buttons ko grid mein karne ke liye */
 @media (min-width: 769px) {
     .button-stack {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columns mein divide karega */
-        gap: 15px; /* Buttons ke beech ka gap */
-        max-width: 1000px; /* Layout ki max width */
-        margin: 0 auto; /* Center karne ke liye */
-        padding: 20px;
+        grid-template-columns: repeat(3, 200px); /* 3 columns, har ek fixed 200px ka */
+        gap: 20px; /* Gap */
+        justify-content: center; /* Grid ko pure block ko center karne ke liye */
+        max-width: 700px; /* Width ko control karne ke liye */
+        margin: 0 auto; /* Pure block ko page ke center mein rakhne ke liye */
     }
 }
 
-/* Mobile view ke liye waisa hi rahega jaisa pehle tha */
-@media (max-width: 768px) {
-    .button-stack {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
-/* Buttons ko uniform size dene ke liye */
+/* Har ek button ki uniformity */
 .button {
     display: flex;
     align-items: center;
-    justify-content: center; /* Text aur icon ko center mein rakhne ke liye */
-    min-width: 200px;        /* Yahan apni pasand ki static width set karein */
-    padding: 12px 20px;      /* Padding ko uniform rakhein */
+    justify-content: flex-start; /* Icon ko left side align karne ke liye */
+    padding: 12px 15px;
+    width: 200px; /* Static width */
     text-decoration: none;
-    box-sizing: border-box;  /* Width calculation mein padding include karne ke liye */
-    text-align: center;
-    white-space: nowrap;     /* Text ko line break hone se rokne ke liye */
+    box-sizing: border-box;
+    border-radius: 8px; /* Agar corners round chahiye */
 }
 
-/* Icon aur text ke beech thoda space */
+/* Icon aur text ke beech thoda gap */
 .button .icon {
-    margin-right: 10px;
+    margin-right: 12px;
+    width: 20px; /* Icons ka size fix kar dein */
+    height: 20px;
 }
