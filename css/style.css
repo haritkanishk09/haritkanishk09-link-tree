@@ -95,34 +95,3 @@ h3 a:hover {
     color: #2457F5 !important; /* Hover karne par blue color ho jayega */
     text-decoration: underline;
 }
-
-/* Container ko screen par center aur buttons ko grid mein karne ke liye */
-@media (min-width: 769px) {
-    .button-stack {
-        display: grid;
-        grid-template-columns: repeat(3, 200px); /* 3 columns, har ek fixed 200px ka */
-        gap: 20px; /* Gap */
-        justify-content: center; /* Grid ko pure block ko center karne ke liye */
-        max-width: 700px; /* Width ko control karne ke liye */
-        margin: 0 auto; /* Pure block ko page ke center mein rakhne ke liye */
-    }
-}
-
-/* Har ek button ki uniformity */
-.button {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Icon ko left side align karne ke liye */
-    padding: 12px 15px;
-    width: 200px; /* Static width */
-    text-decoration: none;
-    box-sizing: border-box;
-    border-radius: 8px; /* Agar corners round chahiye */
-}
-
-/* Icon aur text ke beech thoda gap */
-.button .icon {
-    margin-right: 12px;
-    width: 20px; /* Icons ka size fix kar dein */
-    height: 20px;
-}
