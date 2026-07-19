@@ -6,31 +6,14 @@
     <title>My Letterboxd Reviews</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    body { background: #000; color: #fff; font-family: 'Space Mono', monospace; }
-    
-    .galaxy-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle, #1a1a2e 0%, #000 100%); }
-    
-    .stars { 
-        position: fixed; 
-        inset: 0; 
-        z-index: -1; 
-        background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
-        opacity: 0.3;
-        /* Animation add ki gayi hai */
-        animation: moveStars 400s linear infinite; 
-    }
-
-    /* Animation ka keyframe */
-    @keyframes moveStars {
-        from { background-position: 0 0; }
-        to { background-position: 10000px 5000px; }
-    }
-
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .glass-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; gap: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); align-items: flex-start; min-height: 140px; }
-    .poster-img { width: 80px; height: 120px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #222; }
-    .rating { color: #facc15; font-size: 16px; margin-bottom: 5px; }
-</style>
+        body { background: #000; color: #fff; font-family: 'Space Mono', monospace; }
+        .galaxy-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle, #1a1a2e 0%, #000 100%); }
+        .stars { position: fixed; inset: 0; z-index: -1; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; animation: moveStars 400s linear infinite; }
+        @keyframes moveStars { from { background-position: 0 0; } to { background-position: 10000px 5000px; } }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .glass-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; gap: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); align-items: flex-start; min-height: 140px; }
+        .poster-img { width: 80px; height: 120px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #222; }
+        .rating { color: #facc15; font-size: 16px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -44,26 +27,26 @@
     </div>
 
     <script>
-    // RSS Feed Fetcher (Using allorigins for better compatibility on live hosts)
-    const RSS_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://letterboxd.com/haritkanishk09/rss/');
-    
-    // TMDb Image URL is ALWAYS https
-    function getTMDBImageUrl(path) {
-        return `https://image.tmdb.org/t/p/w200${path}`;
-    }
+        const API_KEY = 'd1d95acce3a7ca44eaae481b6bd75cdf'; // Fix 1: Added Key
+        const RSS_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://letterboxd.com/haritkanishk09/rss/');
+        
+        // Fix 2: Defined Global Variables
+        let allReviews = [];
+        let displayedCount = 0;
 
-    async function init() {
-        try {
-            const response = await fetch(RSS_URL);
-            const data = await response.json();
-            const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
-            allReviews = Array.from(xml.querySelectorAll('item'));
-            renderMore();
-        } catch (e) { 
-            console.error("Critical Load Error:", e);
-            document.getElementById('review-container').innerHTML = "Check your hosting SSL (HTTPS) settings.";
+        async function init() {
+            try {
+                const response = await fetch(RSS_URL);
+                const data = await response.json();
+                const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+                allReviews = Array.from(xml.querySelectorAll('item'));
+                renderMore();
+                document.getElementById('show-more').classList.remove('hidden');
+            } catch (e) { 
+                console.error("Load Error:", e);
+                document.getElementById('review-container').innerHTML = "SSL/Network Error: Check Console.";
+            }
         }
-    }
 
         async function renderMore() {
             const container = document.getElementById('review-container');
@@ -76,14 +59,11 @@
                 const title = parts[0];
                 const year = parts[1] || '';
                 const link = item.querySelector('link').textContent;
-                
                 const descFull = item.querySelector('description').textContent;
                 const descText = descFull.replace(/<[^>]*>/g, '');
                 
-                // Fallback Image Extraction: Letterboxd RSS embeds images in the description
                 const imgMatch = descFull.match(/src="([^"]+)"/);
                 const lbImg = imgMatch ? imgMatch[1] : 'https://placehold.co/80x120?text=No+Poster';
-
                 const rateMatch = descFull.match(/Rated ([\d.]+)/);
                 const stars = rateMatch ? '★'.repeat(Math.floor(rateMatch[1])) : '';
 
@@ -94,34 +74,26 @@
                     <p class="rating">${stars}</p><p class="text-sm opacity-80 mt-1">${descText}</p></div>`;
                 container.appendChild(div);
                 
-                // Try upgrading to TMDb poster, keep fallback if it fails
                 upgradePoster(title, year, `img-${i}`, lbImg);
             }
             displayedCount = end;
-            document.getElementById('show-more').classList.toggle('hidden', displayedCount >= allReviews.length);
+            if (displayedCount >= allReviews.length) document.getElementById('show-more').classList.add('hidden');
         }
 
         async function upgradePoster(title, year, imgId, fallbackUrl) {
             let url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&primary_release_year=${year}&language=en-US`;
-            
             try {
                 let res = await fetch(url);
                 let data = await res.json();
-                
                 if (!data.results || data.results.length === 0) {
                     url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}&language=en-US`;
                     res = await fetch(url);
                     data = await res.json();
                 }
-
                 if (data.results?.[0]?.poster_path) {
                     document.getElementById(imgId).src = `https://image.tmdb.org/t/p/w200${data.results[0].poster_path}`;
-                } else {
-                    document.getElementById(imgId).src = fallbackUrl;
                 }
-            } catch { 
-                document.getElementById(imgId).src = fallbackUrl;
-            }
+            } catch (e) { console.error("Poster Error:", e); }
         }
 
         document.getElementById('show-more').onclick = renderMore;
