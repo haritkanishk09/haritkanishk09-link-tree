@@ -320,3 +320,9 @@ h1 {
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: #333; }
+
+@media (max-width: 768px) {
+    .cursor-dot, .cursor-dot-outline {
+        display: none !important;
+    }
+}
