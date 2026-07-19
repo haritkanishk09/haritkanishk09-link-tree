@@ -44,22 +44,26 @@
     </div>
 
     <script>
-        const API_KEY = 'd1d95acce3a7ca44eaae481b6bd75cdf';
-        const RSS_URL = 'https://corsproxy.io/?https://letterboxd.com/haritkanishk09/rss/';
-        let allReviews = [];
-        let displayedCount = 0;
+    // RSS Feed Fetcher (Using allorigins for better compatibility on live hosts)
+    const RSS_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://letterboxd.com/haritkanishk09/rss/');
+    
+    // TMDb Image URL is ALWAYS https
+    function getTMDBImageUrl(path) {
+        return `https://image.tmdb.org/t/p/w200${path}`;
+    }
 
-        async function init() {
-            try {
-                const res = await fetch(RSS_URL);
-                const text = await res.text();
-                const xml = new DOMParser().parseFromString(text, 'text/xml');
-                allReviews = Array.from(xml.querySelectorAll('item'));
-                renderMore();
-            } catch (e) { 
-                document.getElementById('review-container').innerHTML = `<p class="text-red-500 text-center">Error loading feed: ${e.message}</p>`;
-            }
+    async function init() {
+        try {
+            const response = await fetch(RSS_URL);
+            const data = await response.json();
+            const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+            allReviews = Array.from(xml.querySelectorAll('item'));
+            renderMore();
+        } catch (e) { 
+            console.error("Critical Load Error:", e);
+            document.getElementById('review-container').innerHTML = "Check your hosting SSL (HTTPS) settings.";
         }
+    }
 
         async function renderMore() {
             const container = document.getElementById('review-container');
