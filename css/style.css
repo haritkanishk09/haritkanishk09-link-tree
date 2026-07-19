@@ -116,3 +116,21 @@ h3 a:hover {
         gap: 10px;
     }
 }
+
+/* Buttons ko uniform size dene ke liye */
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Text aur icon ko center mein rakhne ke liye */
+    min-width: 200px;        /* Yahan apni pasand ki static width set karein */
+    padding: 12px 20px;      /* Padding ko uniform rakhein */
+    text-decoration: none;
+    box-sizing: border-box;  /* Width calculation mein padding include karne ke liye */
+    text-align: center;
+    white-space: nowrap;     /* Text ko line break hone se rokne ke liye */
+}
+
+/* Icon aur text ke beech thoda space */
+.button .icon {
+    margin-right: 10px;
+}
