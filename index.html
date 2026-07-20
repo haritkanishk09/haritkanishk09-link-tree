@@ -26,20 +26,7 @@
     <link rel="stylesheet" href="css/brands.css">
 </head>
 
-<script>
-    function closePopup() {
-        document.getElementById('welcome-popup').style.display = 'none';
-    }
-</script>
-
 <body>
-    <div id="welcome-popup" class="popup-overlay">
-    <div class="glass-card popup-content">
-        <h2>WELCOME TO THE FRAME</h2>
-        <p>I am Kanishk Harit, a cinephile living life with films.</p>
-        <button onclick="closePopup()" class="button">ENTER IN MY HUB</button>
-    </div>
-</div>
     <!-- Reels Container -->
 <div class="reel left-reel">
     <div class="scrolling-content" id="left-side"></div>
@@ -159,13 +146,6 @@
             });
         });
 
-        // Agar tumne wo 'Welcome Popup' wali script bhi rakhi hai, toh wo yahan niche add hogi:
-        function closePopup() {
-            document.getElementById('welcome-popup').style.display = 'none';
-        }
-        window.addEventListener('load', () => {
-    document.querySelector('.container').classList.add('loaded');
-});
     </script>
 </body>
 <div class="galaxy-bg"></div>
